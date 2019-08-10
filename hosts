@@ -1,0 +1,12 @@
+[loadbalancer]
+192.168.125.101 ansible_python_interpreter=/usr/bin/python3
+
+[webserver]
+192.168.125.111 ansible_python_interpreter=/usr/bin/python3
+192.168.125.112 ansible_python_interpreter=/usr/bin/python3
+
+[database]
+192.168.125.121 ansible_python_interpreter=/usr/bin/python3
+
+[control]
+localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3
