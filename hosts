@@ -1,12 +1,12 @@
 [loadbalancer]
-192.168.125.201 ansible_python_interpreter=/usr/bin/python3
+lb01 ansible_python_interpreter=/usr/bin/python3 ansible_user=vagrant
 
 [webserver]
-192.168.125.211 ansible_python_interpreter=/usr/bin/python3
-192.168.125.212 ansible_python_interpreter=/usr/bin/python3
+app01 ansible_python_interpreter=/usr/bin/python3 ansible_user=vagrant
+app02 ansible_python_interpreter=/usr/bin/python3 ansible_user=vagrant
 
 [database]
-192.168.125.221 ansible_python_interpreter=/usr/bin/python3
+db01 ansible_python_interpreter=/usr/bin/python3 ansible_user=vagrant
 
 [control]
 localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3

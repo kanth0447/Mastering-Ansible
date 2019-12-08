@@ -1,21 +1,31 @@
 ---
-- name: install web components
-  apt: name={{item}} state=present
+- name: Install web components
+  apt: name={{item}} state=present 
   with_items:
     - apache2
     - libapache2-mod-wsgi
-  tags: [ 'packages' ]
+    - python3-pip
+  tags: ['packages']
 
-- name: ensure mod_wsgi enabled
-  apache2_module: state=present name=wsgi
+- name: Install flask
+  pip: name={{item}} state=present
+  with_items:
+    - flask
+    - Flask-SQLAlchemy
+  tags: ['packages']
+
+- name: ensure mod-wsgi enabled
+  apache2_module: name=wsgi state=present
   notify: restart apache2
-  tags: [ 'configure' ]
+  tags: ['configure']
 
-- name: de-activate default apache site
+- name: deactivate default apache site
   file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
   notify: restart apache2
-  tags: [ 'configure' ]
+  tags: ['configure']
 
 - name: ensure apache2 started
   service: name=apache2 state=started enabled=yes
-  tags: [ 'service' ]
+  tags: ['service']
+
+    

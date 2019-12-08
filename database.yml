@@ -1,8 +1,12 @@
 ---
 - hosts: database
-  become: true
+  remote_user: vagrant
+  become: yes
+  connection: ssh
+  gather_facts: yes
+
   roles:
     - role: mysql
-      db_user_name: "{{ db_user }}"
-      db_user_pass: "{{ db_pass }}"
+      db_user_name: "{{db_user}}"
+      db_user_pass: "{{db_pass}}"
       db_user_host: '%'

@@ -1,29 +1,34 @@
 ---
-- name: install tools
+- name: Install tools
   apt: name={{item}} state=present
   with_items:
-    - python-mysqldb
-  tags: [ 'packages' ]
+    - python-pymysql
+    - python3-pip
+    - python3-dev 
+    - libmysqlclient-dev
+  tags: ['packages']
+       
+- name: Install mysqlclient
+  pip: name=mysqlclient state=present
+  tags: ['packages']
 
-- name: install mysql-server
+- name: Install mysql-server
   apt: name=mysql-server state=present
-  tags: [ 'packages' ]
+  tags: ['packages']
 
 - name: ensure mysql listening on all ports
-  lineinfile: dest=/etc/mysql/mysql.conf.d/mysqld.cnf regexp=^bind-address
-              line="bind-address = 0.0.0.0"
+  lineinfile: path=/etc/mysql/mysql.conf.d/mysqld.cnf regexp=^bind-address line="bind-address = {{ansible_eth1.ipv4.address}}"
   notify: restart mysql
-  tags: [ 'configure' ]
+  tags: ['configure']
 
 - name: ensure mysql started
   service: name=mysql state=started enabled=yes
-  tags: [ 'service' ]
+  tags: ['service']
 
 - name: create database
-  mysql_db: name={{ db_name }} state=present
-  tags: [ 'configure' ]
+  mysql_db: name={{db_name}} state=present
+  tags: ['configure']
 
-- name: create user
-  mysql_user: name={{ db_user_name }} password={{ db_user_pass }} priv={{ db_name }}.*:ALL
-              host='{{ db_user_host }}' state=present
-  tags: [ 'configure' ]
+- name: create demo user
+  mysql_user: name={{db_user_name}} password={{db_user_pass}} priv={{db_name}}.*:ALL host='{{db_user_host}}' state=present
+  tags: ['configure']

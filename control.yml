@@ -1,6 +1,10 @@
 ---
-- hosts: control
-  become: true
+- hosts: loadbalancer
+  remote_user: vagrant
+  become: yes
+  connection: ssh
   gather_facts: no
+
   roles:
-    - control
+    - control    
+  

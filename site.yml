@@ -1,14 +1,16 @@
 ---
 - hosts: all
-  become: true
+  remote_user: vagrant
+  become: yes
   gather_facts: no
+  connection: ssh
   
   tasks:
     - name: update apt cache
-      apt: update_cache=yes cache_valid_time=86400
-      tags: [ 'packages' ]
+      apt: update_cache=yes cache_valid_time=86400  
+      tags: ['packages']
 
 - include: control.yml
-- include: database.yml
-- include: webserver.yml
 - include: loadbalancer.yml
+- include: webserver.yml
+- include: database.yml
